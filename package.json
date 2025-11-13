@@ -1,11 +1,16 @@
 {
-  "name": "com.sheol.sheoltools",
+  "name": "com.sheol.unitytools",
   "version": "1.0.0",
   "displayName": "Sheol Unity Tools",
   "description": "This is just a package I use for unity",
   "author": {
     "name": "Sheol",
     "url": "https://smallguillotine.itch.io/"
+  },
+  "dependencies": {
+    "com.cysharp.unitask": "2.5.1",
+    "com.dbrizov.naughtyattributes": "2.1.4",
+    "com.unity.textmeshpro": "3.0.6"
   }
 }
 
