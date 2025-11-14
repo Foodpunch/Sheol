@@ -1,11 +1,7 @@
 {
-    "name": "PanelSystem",
-    "rootNamespace": "ProjectRuntime.UI",
-    "references": [
-        "UniTask",
-        "Managers",
-        "Extensions"
-    ],
+    "name": "Managers",
+    "rootNamespace": "ProjectRuntime.Managers",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

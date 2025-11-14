@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using ProjectRuntime.UI.PanelSystem;
+using ProjectRuntime.Extensions;
 
 namespace ProjectRuntime.UI
 {
@@ -15,65 +16,65 @@ namespace ProjectRuntime.UI
 
         private PanelManager()
         {
-            //this.SetRoot(GameManager.Instance);
+            this.SetRoot(GameManager.Instance);
         }
 
         public static PanelManager Instance => s_lazy.Value;
 
-        // public Canvas Canvas => this._canvas;
-        // public Canvas TooltipCanvas => this._tooltipCanvas;
-        // public Canvas FadeCanvas => this._fadeCanvas;
+        public Canvas Canvas => this._canvas;
+        public Canvas TooltipCanvas => this._tooltipCanvas;
+        public Canvas FadeCanvas => this._fadeCanvas;
 
-        // private readonly List<BasePanel> _panelStack = new();
-        // private GameObject _panelManagerRoot;
-        // private Canvas _canvas;
-        // private Canvas _tooltipCanvas;
-        // private Canvas _fadeCanvas;
-        // private Image _fade;
+        private readonly List<BasePanel> _panelStack = new();
+        private GameObject _panelManagerRoot;
+        private Canvas _canvas;
+        private Canvas _tooltipCanvas;
+        private Canvas _fadeCanvas;
+        private Image _fade;
         // private UISceneTransitionMask _transitionMask;
 
-        // public void SetRoot(GameManager gm)
-        // {
-        //     var go = new GameObject(nameof(PanelManager));
-        //     go.SetParent(gm.Root);
-        //     go.layer = LayerMask.NameToLayer("UI");
+        public void SetRoot(GameManager gm)
+        {
+            var go = new GameObject(nameof(PanelManager));
+            go.SetParent(gm.Root);
+            go.layer = LayerMask.NameToLayer("UI");
 
-        //     this._canvas = go.FGetComp<Canvas>();
+            this._canvas = go.FGetComp<Canvas>();
 
-        //     // Camera Setup
-        //     this._canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        //     this._canvas.worldCamera = Camera.main;
-        //     this._canvas.sortingLayerID = SortingLayer.NameToID("ui");
-        //     this._canvas.planeDistance = 10f;
+            // Camera Setup
+            this._canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            this._canvas.worldCamera = Camera.main;
+            this._canvas.sortingLayerID = SortingLayer.NameToID("ui");
+            this._canvas.planeDistance = 10f;
 
-        //     // Fix layering issue for popup
-        //     this._canvas.sortingOrder = 100;
+            // Fix layering issue for popup
+            this._canvas.sortingOrder = 100;
 
-        //     this._panelManagerRoot = go;
-        //     this._panelManagerRoot.FGetComp<GraphicRaycaster>();
-        //     var scaler = this._panelManagerRoot.FGetComp<CanvasScaler>();
-        //     if (scaler)
-        //     {
-        //         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        //         scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
-        //         scaler.referenceResolution = new Vector2(x: 1920, y: 1080);
-        //     }
+            this._panelManagerRoot = go;
+            this._panelManagerRoot.FGetComp<GraphicRaycaster>();
+            var scaler = this._panelManagerRoot.FGetComp<CanvasScaler>();
+            if (scaler)
+            {
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
+                scaler.referenceResolution = new Vector2(x: 1920, y: 1080);
+            }
 
-        //     this.SetUpTooltip(go, gm);
-        //     this.SetUpFade(go, gm);
-        // }
+            this.SetUpTooltip(go, gm);
+            // this.SetUpFade(go, gm);
+        }
 
-        // private void SetUpTooltip(GameObject rootObject, GameManager gm)
-        // {
-        //     var tooltip = Object.Instantiate(rootObject, gm.Root);
-        //     tooltip.name = "tooltip";
-        //     var tooltipCanvas = tooltip.FGetComp<Canvas>();
-        //     tooltipCanvas.sortingLayerID = SortingLayer.NameToID("ui");
-        //     tooltipCanvas.sortingOrder = 150;
-        //     tooltipCanvas.planeDistance = 10f;
+        private void SetUpTooltip(GameObject rootObject, GameManager gm)
+        {
+            var tooltip = Object.Instantiate(rootObject, gm.Root);
+            tooltip.name = "tooltip";
+            var tooltipCanvas = tooltip.FGetComp<Canvas>();
+            tooltipCanvas.sortingLayerID = SortingLayer.NameToID("ui");
+            tooltipCanvas.sortingOrder = 150;
+            tooltipCanvas.planeDistance = 10f;
 
-        //     this._tooltipCanvas = tooltipCanvas;
-        // }
+            this._tooltipCanvas = tooltipCanvas;
+        }
 
         // private async void SetUpFade(GameObject rootObject, GameManager gm)
         // {
