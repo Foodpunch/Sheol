@@ -1,0 +1,13 @@
+{
+    "scopedRegistries": [
+  {
+    "name": "OpenUPM",
+    "url": "https://package.openupm.com",
+    "scopes": ["com.dbrizov", "com.cysharp"]
+  }
+],
+"dependencies": {
+  "com.cysharp.unitask": "2.5.1",
+  "com.dbrizov.naughtyattributes": "2.1.4"
+}
+}
