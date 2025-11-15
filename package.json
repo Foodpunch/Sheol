@@ -8,8 +8,8 @@
     "url": "https://smallguillotine.itch.io/"
   },
   "dependencies": {
-    "com.cysharp.unitask": "2.5.1",
-    "com.dbrizov.naughtyattributes": "2.1.4",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git",
+    "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git",
     "com.unity.textmeshpro": "3.0.6"
   }
   
