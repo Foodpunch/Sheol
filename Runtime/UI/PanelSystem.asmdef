@@ -4,7 +4,9 @@
     "references": [
         "UniTask",
         "Managers",
-        "Extensions"
+        "Extensions",
+        "UniTask.DOTween",
+        "Resources"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using ProjectRuntime.UI;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using ProjectRuntime.UI.PanelSystem;
 using ProjectRuntime.Extensions;
+using ProjectRuntime.Resources;
+using Cysharp.Threading.Tasks;
 
 namespace ProjectRuntime.UI
 {
@@ -31,7 +31,7 @@ namespace ProjectRuntime.UI
         private Canvas _tooltipCanvas;
         private Canvas _fadeCanvas;
         private Image _fade;
-        // private UISceneTransitionMask _transitionMask;
+        private UISceneTransitionMask _transitionMask;
 
         public void SetRoot(GameManager gm)
         {
@@ -61,7 +61,7 @@ namespace ProjectRuntime.UI
             }
 
             this.SetUpTooltip(go, gm);
-            // this.SetUpFade(go, gm);
+            this.SetUpFade(go, gm);
         }
 
         private void SetUpTooltip(GameObject rootObject, GameManager gm)
@@ -76,101 +76,101 @@ namespace ProjectRuntime.UI
             this._tooltipCanvas = tooltipCanvas;
         }
 
-        // private async void SetUpFade(GameObject rootObject, GameManager gm)
-        // {
-        //     var fade = Object.Instantiate(rootObject, gm.Root);
-        //     fade.name = "fade";
-        //     var fadeCanvas = fade.FGetComp<Canvas>();
-        //     fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        //     fadeCanvas.sortingLayerID = SortingLayer.NameToID("ui_top");
-        //     this._fade = fade.FGetComp<Image>();
-        //     this._fade.raycastTarget = true;
-        //     this._fade.color = new Color(0f, 0f, 0f, 0f);
-        //     this._fade.SetActive(false);
+        private async void SetUpFade(GameObject rootObject, GameManager gm)
+        {
+            var fade = Object.Instantiate(rootObject, gm.Root);
+            fade.name = "fade";
+            var fadeCanvas = fade.FGetComp<Canvas>();
+            fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            fadeCanvas.sortingLayerID = SortingLayer.NameToID("ui_top");
+            this._fade = fade.FGetComp<Image>();
+            this._fade.raycastTarget = true;
+            this._fade.color = new Color(0f, 0f, 0f, 0f);
+            this._fade.SetActive(false);
 
-        //     this._fadeCanvas = fadeCanvas;
+            this._fadeCanvas = fadeCanvas;
 
-        //     var prefab = await ResourceLoader.Load<GameObject>("ui/prefab/uiscenetransitionmask.prefab");
-        //     var instance = Object.Instantiate(prefab, this._fadeCanvas.transform);
-        //     this._transitionMask = instance.GetComponent<UISceneTransitionMask>();
-        // }
+            var prefab = await ResourceLoader.Load<GameObject>("ui/prefab/uiscenetransitionmask.prefab");
+            var instance = Object.Instantiate(prefab, this._fadeCanvas.transform);
+            this._transitionMask = instance.GetComponent<UISceneTransitionMask>();
+        }
 
-        // public async UniTask<T> ShowAsync<T>(Action<T> action = null)
-        //     where T : BasePanel
-        // {
-        //     var pnl = await this.LoadPanelAsync<T>();
-        //     action?.Invoke(pnl);
+        public async UniTask<T> ShowAsync<T>(Action<T> action = null)
+            where T : BasePanel
+        {
+            var pnl = await this.LoadPanelAsync<T>();
+            action?.Invoke(pnl);
 
-        //     return pnl;
-        // }
+            return pnl;
+        }
 
-        // private async UniTask<T> LoadPanelAsync<T>()
-        //     where T : BasePanel
-        // {
-        //     var parent = this._panelManagerRoot.transform;
-        //     var name = this.GetPanelResourcePath<T>();
-        //     var go = await ResourceLoader.InstantiateAsync(name);
+        private async UniTask<T> LoadPanelAsync<T>()
+            where T : BasePanel
+        {
+            var parent = this._panelManagerRoot.transform;
+            var name = this.GetPanelResourcePath<T>();
+            var go = await ResourceLoader.InstantiateAsync(name);
 
-        //     go.name = typeof(T).Name;
-        //     go.transform.SetParent(parent);
-        //     go.transform.ResetLocalTransform();
-        //     ((RectTransform)go.transform).sizeDelta = Vector2.zero;
+            go.name = typeof(T).Name;
+            go.transform.SetParent(parent);
+            go.transform.ResetLocalTransform();
+            ((RectTransform)go.transform).sizeDelta = Vector2.zero;
 
-        //     var comp = go.FGetComp<T>();
-        //     this._panelStack.Add(comp);
+            var comp = go.FGetComp<T>();
+            this._panelStack.Add(comp);
 
-        //     return comp;
-        // }
+            return comp;
+        }
 
-        // private string GetPanelResourcePath<T>()
-        //     where T : BasePanel
-        // {
-        //     return typeof(T).Name;
-        // }
+        private string GetPanelResourcePath<T>()
+            where T : BasePanel
+        {
+            return typeof(T).Name;
+        }
 
-        // public void OnClose(BasePanel pnl)
-        // {
-        //     ResourceLoader.Destroy(pnl.gameObject);
-        // }
+        public void OnClose(BasePanel pnl)
+        {
+            ResourceLoader.Destroy(pnl.gameObject);
+        }
 
-        // public async UniTask FadeToBlackAsync(float duration = 1f)
-        // {
-        //     if (duration <= 0f)
-        //     {
-        //         this._fade.color = new Color(0, 0, 0, 1);
-        //         this._fade.SetActive(true);
-        //         await UniTask.WaitUntil(() => this._transitionMask != null);
-        //         await this._transitionMask.FadeToBlackAsync(duration);
-        //         return;
-        //     }
+        public async UniTask FadeToBlackAsync(float duration = 1f)
+        {
+            if (duration <= 0f)
+            {
+                this._fade.color = new Color(0, 0, 0, 1);
+                this._fade.SetActive(true);
+                await UniTask.WaitUntil(() => this._transitionMask != null);
+                await this._transitionMask.FadeToBlackAsync(duration);
+                return;
+            }
 
-        //     this._fade.color = new Color(0, 0, 0, 0);
-        //     this._fade.SetActive(true);
+            this._fade.color = new Color(0, 0, 0, 0);
+            this._fade.SetActive(true);
 
-        //     await this._transitionMask.FadeToBlackAsync(duration);
-        //     this._fade.color = new Color(0, 0, 0, 1);
+            await this._transitionMask.FadeToBlackAsync(duration);
+            this._fade.color = new Color(0, 0, 0, 1);
 
-        //     // Add one frame to make sure it goes full black
-        //     await UniTask.Yield();
-        // }
+            // Add one frame to make sure it goes full black
+            await UniTask.Yield();
+        }
 
-        // public async UniTask FadeFromBlack(float duration = 1f)
-        // {
-        //     if (duration <= 0f)
-        //     {
-        //         this._fade.color = new Color(0, 0, 0, 0);
-        //         this._fade.SetActive(false);
-        //         await this._transitionMask.FadeFromBlack(duration);
-        //         return;
-        //     }
+        public async UniTask FadeFromBlack(float duration = 1f)
+        {
+            if (duration <= 0f)
+            {
+                this._fade.color = new Color(0, 0, 0, 0);
+                this._fade.SetActive(false);
+                await this._transitionMask.FadeFromBlack(duration);
+                return;
+            }
 
-        //     this._fade.SetActive(true);
+            this._fade.SetActive(true);
 
-        //     this._fade.color = new Color(0, 0, 0, 0);
-        //     await UniTask.WaitUntil(() => this._transitionMask != null);
-        //     await this._transitionMask.FadeFromBlack(duration);
+            this._fade.color = new Color(0, 0, 0, 0);
+            await UniTask.WaitUntil(() => this._transitionMask != null);
+            await this._transitionMask.FadeFromBlack(duration);
 
-        //     this._fade.SetActive(false);
-        // }
+            this._fade.SetActive(false);
+        }
     }
 }
