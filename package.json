@@ -7,9 +7,17 @@
     "name": "Sheol",
     "url": "https://smallguillotine.itch.io/"
   },
+  "scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": ["com.dbrizov", "com.cysharp"]
+    }
+  ]
+  ,
   "dependencies": {
-    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git",
-    "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git",
+    "com.cysharp.unitask": "2.5.1",
+    "com.dbrizov.naughtyattributes": "2.1.4",
     "com.unity.textmeshpro": "3.0.6"
   }
   
