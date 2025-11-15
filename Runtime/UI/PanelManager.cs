@@ -89,8 +89,8 @@ namespace ProjectRuntime.UI
             this._fade.SetActive(false);
 
             this._fadeCanvas = fadeCanvas;
-
-            var prefab = await ResourceLoader.Load<GameObject>("ui/prefab/uiscenetransitionmask.prefab");
+            //This uses addressables to get the prefab
+            var prefab = await ResourceLoader.Load<GameObject>("uiscenetransitionmask");
             var instance = Object.Instantiate(prefab, this._fadeCanvas.transform);
             this._transitionMask = instance.GetComponent<UISceneTransitionMask>();
         }
@@ -147,6 +147,7 @@ namespace ProjectRuntime.UI
             this._fade.color = new Color(0, 0, 0, 0);
             this._fade.SetActive(true);
 
+            await UniTask.WaitUntil(() => this._transitionMask != null);
             await this._transitionMask.FadeToBlackAsync(duration);
             this._fade.color = new Color(0, 0, 0, 1);
 
@@ -160,6 +161,7 @@ namespace ProjectRuntime.UI
             {
                 this._fade.color = new Color(0, 0, 0, 0);
                 this._fade.SetActive(false);
+                await UniTask.WaitUntil(() => this._transitionMask != null);
                 await this._transitionMask.FadeFromBlack(duration);
                 return;
             }

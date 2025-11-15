@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class GameManager : MonoBehaviour
+public class GameManager
 {
     private static readonly Lazy<GameManager> s_lazy = new(() => new GameManager());
 
